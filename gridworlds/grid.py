@@ -1,8 +1,8 @@
 import operator
 from typing import Dict
 
-from gridworld.grid_exceptions import *
-from gridworld.tile import *
+from gridworlds.grid_exceptions import *
+from gridworlds.tile import *
 
 
 class Grid:

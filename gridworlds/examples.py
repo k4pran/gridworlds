@@ -1,5 +1,5 @@
-from gridworld.grid import Grid
-from gridworld.environment import Env
+from gridworlds.grid import Grid
+from gridworlds.environment import Env
 
 
 def grid_from_string():
