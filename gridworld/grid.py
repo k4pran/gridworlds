@@ -1,8 +1,8 @@
 import operator
 from typing import Dict
 
-from src.grid_exceptions import *
-from src.tile import *
+from gridworld.grid_exceptions import *
+from gridworld.tile import *
 
 
 class Grid:
@@ -28,7 +28,6 @@ class Grid:
             raise GridOutOfBoundsException("Unable to add tile at position ({},{}) for a grid with dimensions {}*{}".format(
                 row, col, self.rows, self.cols))
         self._tiles[row][col] = tile
-
 
     def get_tile(self, row, col):
         return self._tiles[row][col]

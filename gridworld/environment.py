@@ -1,8 +1,8 @@
 import pygame
 import random
 
-from src.grid import Grid
-from src.environment_exceptions import InvalidActionException
+from gridworld.grid import Grid
+from gridworld.environment_exceptions import InvalidActionException
 
 
 class Env:
