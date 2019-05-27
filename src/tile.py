@@ -7,6 +7,7 @@ class TileType(Enum):
     GOAL = 1
     HOLE = 2
     PENALTY = 3
+    SLIPPERY = 4
 
 
 class Autonomy(Enum):
@@ -51,6 +52,9 @@ class Tile:
             if key[0] != '_':
                 setattr(self, key, value)
 
+    def on_leave(self, tiles, action_space, action) -> int:
+        return action
+
     def on_land(self, tiles):
         pass
 
@@ -67,6 +71,19 @@ class Tile:
                 if key[0] != '_':
                     setattr(self, key, value)
 
+class SlipperyTile(Tile):
+
+    def __init__(self, row, col, tile_type=TileType.EMPTY, reward=0, autonomy=Autonomy.NONE,
+                 resist_prob=0.5, color=(255, 255, 255), slippiness=0.3, **kwargs):
+        super(SlipperyTile, self).__init__(row, col, tile_type=tile_type, reward=reward, autonomy=autonomy,
+                 resist_prob=resist_prob, color=color, **kwargs)
+        self.slippiness = slippiness
+
+    def on_leave(self, tiles, action_space, action) -> int:
+        if self.slippiness > random.random():
+            return random.choice(action_space)
+        else:
+            return action
 
 class TileGenerator:
 
@@ -79,6 +96,7 @@ class TileGenerator:
         if tile_type == TileType.GOAL: return TileGenerator.create_goal(row, col)
         if tile_type == TileType.HOLE: return TileGenerator.create_hole(row, col)
         if tile_type == TileType.PENALTY: return TileGenerator.create_penalty(row, col)
+        if tile_type == TileType.SLIPPERY: return TileGenerator.create_slippery(row, col)
 
     @classmethod
     def create_empty(cls, row, col):
@@ -98,3 +116,8 @@ class TileGenerator:
     def create_penalty(cls, row, col):
         return Tile(row, col, TileType.PENALTY, reward=-1, autonomy=Autonomy.FULL, color=(255, 0, 0),
                     valid_start=False, terminal=False)
+
+    @classmethod
+    def create_slippery(cls, row, col):
+        return Tile(row, col, TileType.SLIPPERY, reward=0, autonomy=Autonomy.FULL, color=(0, 0, 125),
+                    valid_start=True, terminal=False)
