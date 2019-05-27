@@ -1,7 +1,7 @@
 from distutils.core import setup
 setup(
-  name = 'gridworld',
-  packages = ['gridworld'],
+  name = 'gridworlds',
+  packages = ['gridworlds'],
   version = '0.1',
   license='MIT',
   description='Generate grids for AI bots',
